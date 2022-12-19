@@ -1,0 +1,39 @@
+.devtoc__details {
+    margin-bottom: 2rem;
+    border: 1px solid #fff;
+    border-radius: 3px;
+    position: sticky !important;
+    top: 60px;
+    background-color: var(--card-bg);
+    z-index: 99;
+}
+
+.devtoc__summary {
+    font-weight: bold;
+    font-size: 1.2em;
+    padding: 5px 10px;
+    cursor: pointer;
+    user-select: none;
+    position: sticky;
+    top: 0px;
+    background-color: var(--card-bg);
+}
+
+.devtoc__details[open] a {
+    cursor: pointer;
+}
+
+.devtoc__details[open] {
+    padding-bottom: 0px;
+    max-height: calc(50vh - 56px);
+    overflow-y: scroll;
+}
+
+.devtoc__details[open] .devtoc__summary {
+    border-bottom: 1px solid #fff;
+}
+
+.devtoc__details[open] .devtoc__ul {
+    display: block;
+    padding: 10px calc(var(--content-padding-y) + 10px) 0;
+}

@@ -1,0 +1,13 @@
+{
+    "manifest_version": 2,
+    "name": "Dev.to Table of Contents",
+    "version": "1.0",
+    "description": "Add table of contents to dev.to articles",
+    "content_scripts": [
+        {
+            "matches": [ "https://dev.to/*/*" ],
+            "js": ["scripts/content.js"],
+            "css": ["styles/content.css"]
+        }
+    ]
+}
