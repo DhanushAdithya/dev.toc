@@ -1,6 +1,7 @@
 {
     "manifest_version": 2,
     "name": "Dev.to Table of Contents",
+    "short_name": "dev.toc",
     "version": "1.0",
     "description": "Add table of contents to dev.to articles",
     "content_scripts": [
