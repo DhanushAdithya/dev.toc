@@ -6,7 +6,7 @@
     "description": "Add table of contents to dev.to articles",
     "content_scripts": [
         {
-            "matches": [ "https://dev.to/*/*" ],
+            "matches": [ "https://dev.to/*" ],
             "js": ["scripts/content.js"],
             "css": ["styles/content.css"]
         }
