@@ -1,29 +1,34 @@
-const articleBody = document.getElementById("article-body");
-const articleHeadings = Array.from(articleBody.children).filter(
-    (e) => /h[1-6]/g.test(e.localName)
+const $ = document.querySelector.bind(document)
+const create = document.createElement.bind(document)
+
+const articleBody = $("#article-body");
+const articleHeadings = [...articleBody.children].filter(
+    e => /h[1-6]/g.test(e.localName)
 );
 
-const tocDetails = document.createElement("details");
+const tocDetails = create("details");
 tocDetails.classList.add("devtoc__details");
 
-const tocSummary = document.createElement("summary");
+const tocSummary = create("summary");
 tocSummary.textContent = "Table of Contents";
 tocSummary.classList.add("devtoc__summary");
 
-const tocList = document.createElement("ul");
+const tocList = create("ul");
 tocList.classList.add("devtoc__ul");
 
-const titleItem = document.createElement("li");
-const titleAnchor = document.createElement("a");
+const titleItem = create("li");
+const titleAnchor = create("a");
 titleAnchor.href = "#main-title";
-titleAnchor.textContent = document
-    .querySelector(".crayons-article__header__meta h1")
+titleAnchor.textContent = $(".crayons-article__header__meta h1")
     .textContent.trim();
 
-titleAnchor.addEventListener("click", (e) => {
+titleAnchor.addEventListener("click", e => {
     e.preventDefault();
     tocDetails.open = false;
-    window.scrollTo({ top: 0, behavior: "smooth" });
+    window.scrollTo({
+        top: 0,
+        behavior: "smooth",
+    });
 });
 
 titleItem.append(titleAnchor);
@@ -32,19 +37,22 @@ tocList.append(titleItem);
 tocDetails.append(tocSummary);
 tocDetails.append(tocList);
 
-if (articleHeadings.length > 0) {
-    const headingList = document.createElement("ul");
+if (articleHeadings.length) {
+    const headingList = create("ul");
     for (const heading of articleHeadings) {
-        const headingItem = document.createElement("li");
-        const headingLink = document.createElement("a");
-        headingLink.href = Array.from(heading.children)[0].href;
+        const headingItem = create("li");
+        const headingLink = create("a");
+        headingLink.href = [...heading.children].at(0).href;
         headingLink.textContent = heading.textContent.trim();
 
-        headingLink.addEventListener("click", (e) => {
+        headingLink.addEventListener("click", e => {
             e.preventDefault();
             tocDetails.open = false;
             const headingTop = heading.offsetTop;
-            window.scrollTo({ top: headingTop - 35, behavior: "smooth" });
+            window.scrollTo({
+                top: headingTop - 35,
+                behavior: "smooth"
+            });
         });
 
         headingItem.append(headingLink);
