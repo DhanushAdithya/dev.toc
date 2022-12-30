@@ -1,9 +1,9 @@
-const $ = document.querySelector.bind(document)
-const create = document.createElement.bind(document)
+const $ = document.querySelector.bind(document);
+const create = document.createElement.bind(document);
 
 const articleBody = $("#article-body");
-const articleHeadings = [...articleBody.children].filter(
-    e => /h[1-6]/g.test(e.localName)
+const articleHeadings = [...articleBody.children].filter(e =>
+	/h[1-6]/g.test(e.localName)
 );
 
 const tocDetails = create("details");
@@ -19,16 +19,17 @@ tocList.classList.add("devtoc__ul");
 const titleItem = create("li");
 const titleAnchor = create("a");
 titleAnchor.href = "#main-title";
-titleAnchor.textContent = $(".crayons-article__header__meta h1")
-    .textContent.trim();
+titleAnchor.textContent = $(
+	".crayons-article__header__meta h1"
+).textContent.trim();
 
 titleAnchor.addEventListener("click", e => {
-    e.preventDefault();
-    tocDetails.open = false;
-    window.scrollTo({
-        top: 0,
-        behavior: "smooth",
-    });
+	e.preventDefault();
+	tocDetails.open = false;
+	window.scrollTo({
+		top: 0,
+		behavior: "smooth",
+	});
 });
 
 titleItem.append(titleAnchor);
@@ -38,27 +39,49 @@ tocDetails.append(tocSummary);
 tocDetails.append(tocList);
 
 if (articleHeadings.length) {
-    const headingList = create("ul");
-    for (const heading of articleHeadings) {
-        const headingItem = create("li");
-        const headingLink = create("a");
-        headingLink.href = [...heading.children].at(0).href;
-        headingLink.textContent = heading.textContent.trim();
+	const headingList = create("ul");
+	let currentList = headingList;
+	let currentLevel = Math.min(
+		...articleHeadings.map(e => +e.localName.slice(1))
+	);
 
-        headingLink.addEventListener("click", e => {
-            e.preventDefault();
-            tocDetails.open = false;
-            const headingTop = heading.offsetTop;
-            window.scrollTo({
-                top: headingTop - 35,
-                behavior: "smooth"
-            });
-        });
+	for (const heading of articleHeadings) {
+		console.log("hit", heading.localName.slice(1));
+		const level = +heading.localName.slice(1);
 
-        headingItem.append(headingLink);
-        headingList.append(headingItem);
-    }
-    tocList.append(headingList);
+		if (level > currentLevel) {
+			const newList = create("ul");
+			if (currentList.lastElementChild) {
+				currentList.lastElementChild.append(newList);
+			} else {
+				currentList.append(newList);
+			}
+			currentList = newList;
+			currentLevel = level;
+		} else if (level < currentLevel) {
+			currentList = currentList.parentElement;
+			currentLevel = level;
+		}
+
+		const headingItem = create("li");
+		const headingLink = create("a");
+		headingLink.href = [...heading.children].at(0).href;
+		headingLink.textContent = heading.textContent.trim();
+
+		headingLink.addEventListener("click", e => {
+			e.preventDefault();
+			tocDetails.open = false;
+			const headingTop = heading.offsetTop;
+			window.scrollTo({
+				top: headingTop - 35,
+				behavior: "smooth",
+			});
+		});
+
+		headingItem.append(headingLink);
+		currentList.append(headingItem);
+	}
+	tocList.append(headingList);
 }
 
 articleBody.prepend(tocDetails);
