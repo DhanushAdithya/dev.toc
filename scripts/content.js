@@ -51,11 +51,10 @@ const addToC = () => {
 
 			if (level > currentLevel) {
 				const newList = create("ul");
-				if (currentList.lastElementChild) {
+				if (currentList.lastElementChild)
 					currentList.lastElementChild.append(newList);
-				} else {
+				else
 					currentList.append(newList);
-				}
 				currentList = newList;
 				currentLevel = level;
 			} else if (level < currentLevel) {
@@ -91,9 +90,7 @@ const targetNode = document.body;
 const observer = new MutationObserver(mutations => {
 	if (mutations[0].target === document.body) {
 		const articleBody = $("#article-body");
-		if (articleBody) {
-			addToC();
-		}
+		if (articleBody) addToC();
 	}
 });
 const unobserve = () => {
